@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'game_calendar',
+    # DOING:0 Start making calendar app.
 ]
 
 MIDDLEWARE = [
