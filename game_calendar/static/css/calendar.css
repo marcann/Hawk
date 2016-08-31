@@ -2,9 +2,23 @@
   background-color: rgb(255, 224, 156);
 }
 
+.noday {
+  background-color: rgb(245, 245, 245);
+}
+
+.table .monthname {
+  font-size: 2.5em;
+  vertical-align: middle;
+}
+
+.calendar ul {
+  list-style: none;
+}
+
 table {
   table-layout: fixed;
-  height: 502px;
+  min-height: 502px;
+  height: auto;
 }
 
 table tr th, td {

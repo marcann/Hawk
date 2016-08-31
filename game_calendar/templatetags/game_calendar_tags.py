@@ -2,21 +2,23 @@ from calendar import HTMLCalendar
 from django import template
 from datetime import datetime, date
 from itertools import groupby
+from django.middleware import locale as _locale
 
 from django.utils.html import conditional_escape as esc
 
 register = template.Library()
+month_names = ['', 'January', 'Feburary', 'March', 'April', 'May', 'June', 'July',
+'August', 'September', 'October', 'November', 'December']
 
 def do_event_calendar(parser, token):
     """
     template tag's syntax is {% event_calendar year month, event_list %}
     """
-
     try:
-        tag_name, year, month, event_list = token.split_contents()
+        tag_name, year, month, events_list = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError()
-    return EventCalendarNode(year, month, event_list)
+    return EventCalendarNode(year, month, events_list)
 
 
 class EventCalendarNode(template.Node):
@@ -65,13 +67,24 @@ class EventCalendar(HTMLCalendar):
                 body = ['<ul>']
                 for event in self.events[day]:
                     body.append('<li>')
-                    body.append('<a href="%s">' % event.get_absolute_url())
-                    body.append(esc(event.series.primary_name))
+                    body.append('<a href="#">')
+                    body.append((event.title))
                     body.append('</a></li>')
                 body.append('</ul>')
                 return self.day_cell(cssclass, '<span class="dayNumber">%d</span> %s' % (day, ''.join(body)))
             return self.day_cell(cssclass, '<span class="dayNumberNoEvents">%d</span>' % (day))
         return self.day_cell('noday', '&nbsp;')
+
+    def formatmonthname(self, year, month, withyear=True):
+        """
+        Return a month name as a table row.
+        """
+        self.year, self.month = year, month
+        if withyear:
+            s = '%s %s' % (month_names[self.month], self.year)
+        else:
+            s = '%s' % month_names[self.month]
+        return '<tr><th colspan="7" class="monthname text-center">%s</th></tr>' % s
 
     def formatmonth(self, year, month):
         """
@@ -93,6 +106,8 @@ class EventCalendar(HTMLCalendar):
         a('\n')
         return ''.join(v)
 
+        # TODO add navigation links to previous and next month.
+
     def group_by_day(self, events):
         field = lambda event: event.date_and_time.day
         return dict(
@@ -105,4 +120,4 @@ class EventCalendar(HTMLCalendar):
 # Register the template tag so it is available to the Templates
 register.tag("event_calendar", do_event_calendar)
 
-# DOING:0 write HTMLCalendar ovveride functions
+# DONE:0 write HTMLCalendar ovveride functions
