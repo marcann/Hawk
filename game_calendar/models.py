@@ -43,9 +43,7 @@ class Event(models.Model):
     title = models.CharField("Title", max_length=50)
     description = models.TextField("Description")
     comments = models.TextField("Comments")
-    date = models.DateField()
-    starts = models.TimeField(blank=True, null=True)
-    ends = models.TimeField(blank=True, null=True)
+    date_and_time = models.DateTimeField("Date and time", default=datetime.now())
     price = models.CharField(default="Free", max_length=50)
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
@@ -58,9 +56,9 @@ class Event(models.Model):
     class Meta:
         verbose_name = "Event"
         verbose_name_plural = "Events"
-        ordering = ['date', 'starts']
+        ordering = ['date_and_time']
 
     def __str__(self):
         return self.title
 
-# TODO extend the Event model for DWHL Hockey game which allows the storing of scores.
+# TODO:0 extend the Event model for DWHL Hockey game which allows the storing of scores.

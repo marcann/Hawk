@@ -1,7 +1,9 @@
 {% extends 'blog/base.html' %}
-
+{% load game_calendar_tags %}
 {% block content %}
-{{ calendar }}
+<div id="calendar">
+  {% event_calendar year month events_list %}
+</div>
 {% endblock %}
 
-<!-- TODO write calendar page template once finished with calendar vew -->
+<!-- DOING: write calendar page template once finished with calendar vew -->
