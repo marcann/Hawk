@@ -1,0 +1,12 @@
+.today {
+  background-color: rgb(255, 224, 156);
+}
+
+table {
+  table-layout: fixed;
+  height: 502px;
+}
+
+table tr th, td {
+  width: 14%;
+}

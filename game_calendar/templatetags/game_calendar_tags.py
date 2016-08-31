@@ -74,8 +74,24 @@ class EventCalendar(HTMLCalendar):
         return self.day_cell('noday', '&nbsp;')
 
     def formatmonth(self, year, month):
+        """
+        Return a formatted month as a table.
+        """
         self.year, self.month = year, month
-        return super(EventCalendar, self).formatmonth(year, month)
+        v = []
+        a = v.append
+        a('<table class="table table-bordered">')
+        a('\n')
+        a(self.formatmonthname(self.year, self.month, withyear=True))
+        a('\n')
+        a(self.formatweekheader())
+        a('\n')
+        for week in self.monthdays2calendar(self.year, self.month):
+            a(self.formatweek(week))
+            a('\n')
+        a('</table>')
+        a('\n')
+        return ''.join(v)
 
     def group_by_day(self, events):
         field = lambda event: event.date_and_time.day
