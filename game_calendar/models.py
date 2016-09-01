@@ -38,7 +38,7 @@ class Event(models.Model):
     title = models.CharField("Title", max_length=50)
     description = models.TextField("Description")
     comments = models.TextField("Comments")
-    date_and_time = models.DateTimeField("Date and time", default=timezone.now())
+    date_and_time = models.DateTimeField("Date and time")
     price = models.CharField(default="Free", max_length=50)
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
