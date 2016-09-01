@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'game_calendar',
-    # DOING:10 Start making calendar app.
+    # DOING:10 Make calendar app.
 ]
 
 MIDDLEWARE = [
@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mysite.context_processors.events.get_event_lists',
             ],
         },
     },

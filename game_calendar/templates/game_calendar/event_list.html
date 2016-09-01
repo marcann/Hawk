@@ -1,0 +1,18 @@
+<h2>Upcoming Games</h2>
+<ul>
+    {% for event in events_future %}
+    <li>
+        <a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a> &nbsp;
+        <span class="date">{{ event.date_and_time|date:"D M d, H:i" }}</span>
+    </li>
+    {% endfor %}
+</ul>
+<h2>Past Games</h2>
+<ul>
+    {% for event in events_past %}
+    <li>
+        <a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a> &nbsp;
+        <span class="date">{{ event.date_and_time|date:"D M d, H:i" }}</span>
+    </li>
+    {% endfor %}
+</ul>

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from datetime import datetime, date
 from calendar import monthrange
 from .models import Event
+from django.utils import timezone
 
 def named_month(month_number):
     """
@@ -13,7 +14,7 @@ def this_month(request):
     """
     Show calendar of events this month.
     """
-    today = datetime.now()
+    today = timezone.now()
     return calendar(request, today.year, today.month)
 
 def calendar(request, year, month, series_id=None):
@@ -58,8 +59,15 @@ def calendar(request, year, month, series_id=None):
                                             'year_after_this': my_year_after_this,
     })
 
+def event_list(request):
+    events = Event.objects.filter(date_and_time__lte=timezone.now()).order_by('date_and_time')
+    return render(request, 'game_calendar/event_list.html', {'events': events})
+
+#def event_list_past(request):
+    #return
+
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     return render(request, 'game_calendar/event_detail.html', {'event': event})
 
-    # TODO:20 create a method(s) that outputs a list of future/past events to be presented on the blog page and next to the calendar.
+    # DOING:30 Add a list of events as part of the base of the site.

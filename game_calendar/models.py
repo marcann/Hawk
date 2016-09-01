@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.utils import timezone
 
 # models
 
@@ -9,9 +9,6 @@ class Venue(models.Model):
     name = models.CharField("Name", max_length=50)
     address = models.CharField("Address", max_length=50)
     description = models.TextField("Description")
-
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
 
     class Meta:
@@ -25,8 +22,6 @@ class Venue(models.Model):
 class Category(models.Model):
     # Different types of events (or sports) #
     name = models.CharField("Name", max_length=50)
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
 
     class Meta:
@@ -43,14 +38,10 @@ class Event(models.Model):
     title = models.CharField("Title", max_length=50)
     description = models.TextField("Description")
     comments = models.TextField("Comments")
-    date_and_time = models.DateTimeField("Date and time", default=datetime.now())
+    date_and_time = models.DateTimeField("Date and time", default=timezone.now())
     price = models.CharField(default="Free", max_length=50)
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
-
-    status = models.IntegerField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User)
 
     class Meta:
@@ -66,4 +57,4 @@ class Event(models.Model):
         return reverse('event_detail', args=[self.pk])
 
 
-# TODO:30 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
+# TODO:20 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
