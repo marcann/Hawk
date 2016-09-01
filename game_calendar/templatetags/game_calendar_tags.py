@@ -3,6 +3,7 @@ from django import template
 from datetime import datetime, date
 from itertools import groupby
 from django.middleware import locale as _locale
+#from django.conf.urls import url
 
 from django.utils.html import conditional_escape as esc
 
@@ -67,7 +68,7 @@ class EventCalendar(HTMLCalendar):
                 body = ['<ul>']
                 for event in self.events[day]:
                     body.append('<li>')
-                    body.append('<a href="#">')
+                    body.append('<a href="%s">' % event.get_absolute_url())
                     body.append((event.title))
                     body.append('</a></li>')
                 body.append('</ul>')
@@ -106,7 +107,7 @@ class EventCalendar(HTMLCalendar):
         a('\n')
         return ''.join(v)
 
-        # TODO add navigation links to previous and next month.
+        # TODO:10 add navigation links to previous and next month in the calendar.
 
     def group_by_day(self, events):
         field = lambda event: event.date_and_time.day

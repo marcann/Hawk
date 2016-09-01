@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from datetime import datetime, date
 from calendar import monthrange
 from .models import Event
@@ -57,3 +57,9 @@ def calendar(request, year, month, series_id=None):
                                             'year_before_this': my_year_before_this,
                                             'year_after_this': my_year_after_this,
     })
+
+def event_detail(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    return render(request, 'game_calendar/event_detail.html', {'event': event})
+
+    # TODO:20 create a method(s) that outputs a list of future/past events to be presented on the blog page and next to the calendar.

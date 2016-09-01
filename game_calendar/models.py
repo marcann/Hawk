@@ -61,4 +61,9 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-# TODO:0 extend the Event model for DWHL Hockey game which allows the storing of scores.
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('event_detail', args=[self.pk])
+
+
+# TODO:30 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.

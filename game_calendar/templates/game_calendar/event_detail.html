@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block event_detail %}
+    <div class="event_detail">
+            <div class="event_date">
+                {{ event.date_and_time }}
+            </div>
+        <h1>{{ event.title }}</h1>
+        <p>{{ event.description|linebreaksbr }}</p>
+        <p>{{ event.comments|linebreaksbr }}</p>
+        <p>{{ event.venue.name }}</p>
+        <p>{{ event.venue.description }}</p>
+        <p>{{ event.venue.address }}</p>
+    </div>
+{% endblock %}

@@ -6,6 +6,9 @@
   background-color: rgb(245, 245, 245);
 }
 
+.filled {
+  background-color: rgb(227, 189, 168);
+}
 .table .monthname {
   font-size: 2.5em;
   vertical-align: middle;
@@ -24,3 +27,5 @@ table {
 table tr th, td {
   width: 14%;
 }
+
+/* DOING:0 make Calendar table look nice */
