@@ -6,5 +6,5 @@ function initMap() {
   });
 }
 
-// DOING:20 Add google map to event_detail page.
-// DOING:40 Customize Google map view for arena locations.
+// TODO:30 Add google map to event_detail page.
+// TODO:20 Customize Google map view for arena locations.

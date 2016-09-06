@@ -9,23 +9,35 @@
 .filled {
   background-color: rgb(227, 189, 168);
 }
+
+.calendar table, td {
+  height: 14%;
+}
+
+.calendar table th {
+  height: 20px;
+}
+
 .table .monthname {
   font-size: 2.5em;
   vertical-align: middle;
+  min-height: 75px;
 }
 
 .calendar ul {
   list-style: none;
+  padding-left: 0;
+  text-align: center;
 }
 
-table {
+.calendar table {
   table-layout: fixed;
-  min-height: 502px;
+  min-height: 650px;
   height: auto;
 }
 
-table tr th, td {
-  width: 14%;
+.calendar_controls a:hover {
+  text-decoration: none;
 }
 
 /* DOING:0 make Calendar table look nice */

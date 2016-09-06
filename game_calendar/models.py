@@ -57,4 +57,4 @@ class Event(models.Model):
         return reverse('event_detail', args=[self.pk])
 
 
-# TODO:20 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
+# TODO:0 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.

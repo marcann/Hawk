@@ -76,6 +76,8 @@ class EventCalendar(HTMLCalendar):
             return self.day_cell(cssclass, '<span class="dayNumberNoEvents">%d</span>' % (day))
         return self.day_cell('noday', '&nbsp;')
 
+    # TODO Make in-calendar link better.
+
     def formatmonthname(self, year, month, withyear=True):
         """
         Return a month name as a table row.
@@ -107,7 +109,7 @@ class EventCalendar(HTMLCalendar):
         a('\n')
         return ''.join(v)
 
-        # TODO:10 add navigation links to previous and next month in the calendar.
+        # DONE:20 add navigation links to previous and next month in the calendar.
 
     def group_by_day(self, events):
         field = lambda event: event.date_and_time.day
@@ -121,4 +123,4 @@ class EventCalendar(HTMLCalendar):
 # Register the template tag so it is available to the Templates
 register.tag("event_calendar", do_event_calendar)
 
-# DONE:0 write HTMLCalendar ovveride functions
+# DONE:30 write HTMLCalendar ovveride functions
