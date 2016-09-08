@@ -40,4 +40,8 @@
   text-decoration: none;
 }
 
+#map_container {
+  height: 40%;
+}
+
 /* DOING:0 make Calendar table look nice */

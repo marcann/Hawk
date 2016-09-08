@@ -1,14 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .helpers import get_lat, get_lng
 
 # models
 
 class Venue(models.Model):
     # Describes the venues, location #
     name = models.CharField("Name", max_length=50)
-    address = models.CharField("Address", max_length=50)
-    description = models.TextField("Description")
+    full_address = models.CharField(blank=True, max_length=100)
+    street_address = models.CharField("Street Address", max_length=50)
+    city = models.CharField("City", max_length=20, default="Montreal")
+    country = models.CharField("Country", max_length = 20, default="Canada")
+    province = models.CharField("Province", max_length=2, default="QC")
+    postal_code = models.CharField("Postal Code", max_length=6)
+    lat = models.CharField(blank=True, max_length=50)
+    lng = models.CharField(blank=True, max_length=50)
     user = models.ForeignKey(User)
 
     class Meta:
@@ -18,6 +25,27 @@ class Venue(models.Model):
 
     def __str__(self):
         return self.name
+
+    def _get_display_address(self):
+        return ", ".join([self.street_address, self.city, self.province, self.postal_code])
+    full_address = property(_get_display_address)
+
+    def _get_geocode(self):
+        return "%s" % ( self.postal_code)
+    geo_address = property(_get_geocode)
+
+    def save(self, *args, **kwargs):
+        if not (self.lat and self.lng):
+            if self.postal_code:
+                location = self.geo_address
+                self.lat = get_lat(location)
+                self.lng = get_lng(location)
+            else:
+                location = '+'.join(filter(None, (self.address, self.city, self.province, self.country)))
+                self.lat = get_lat(location)
+                self.lng = get_lng(location)
+        super(Venue, self).save(*args, **kwargs)
+
 
 class Category(models.Model):
     # Different types of events (or sports) #

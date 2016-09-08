@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime, date
 from calendar import monthrange
-from .models import Event
+from .models import Event, Venue
 from django.utils import timezone
+from django.core import serializers
+from django.http import HttpResponse
 
 def named_month(month_number):
     """
@@ -73,6 +75,8 @@ def event_list(request):
 
 def event_detail(request, pk):
     event = get_object_or_404(Event, pk=pk)
-    return render(request, 'game_calendar/event_detail.html', {'event': event})
+    json_event = serializers.serialize("json", Event.objects.filter(pk=pk))
+    json_venues = serializers.serialize("json", Venue.objects.all())
+    return render(request, 'game_calendar/event_detail.html', {'event': event, 'json_event': json_event, 'json_venues': json_venues})
 
     # DONE:10 Add a list of events as part of the base of the site.

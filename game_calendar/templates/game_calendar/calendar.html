@@ -5,10 +5,10 @@
   {% event_calendar year month events_list %}
   <div class="calendar_controls text-center">
     <a href="{% url 'calendar' month=previous_month year=previous_year %}">
-      <button type="button" class="btn btn-default">&lt;&lt; {{ previous_month_name }}</button>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-menu-left"></span>&nbsp;{{ previous_month_name }}</button>
     </a>
     <a href="{% url 'calendar' month=next_month year=next_year %}">
-      <button type="button" class="btn btn-default">{{ next_month_name }} &gt;&gt;</button>
+      <button type="button" class="btn btn-default">{{ next_month_name }}&nbsp;<span class="glyphicon glyphicon-menu-right"></span></button>
     </a>
   </div>
 </div>
