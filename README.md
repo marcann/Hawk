@@ -5,4 +5,5 @@ Current features:
 - Blog
 - Calendar
 - Event schedular
+- Google Map view for each event
 - User management (normal, staff, superuser)
