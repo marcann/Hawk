@@ -10,6 +10,10 @@
   background-color: rgb(227, 189, 168);
 }
 
+.calendar {
+  margin-bottom: 25px;
+}
+
 .calendar table, td {
   height: 14%;
 }

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'game_calendar',
+    'userauth',
+    # DOING Make userauth app.
     # DOING:10 Make calendar app.
 ]
 
@@ -103,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# User Auth model
+
+AUTH_USER_MODEL = 'userauth.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

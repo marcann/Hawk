@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 from .helpers import get_lat, get_lng
 
@@ -16,7 +16,7 @@ class Venue(models.Model):
     postal_code = models.CharField("Postal Code", max_length=6)
     lat = models.CharField(blank=True, max_length=50)
     lng = models.CharField(blank=True, max_length=50)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name = "Venue"
@@ -50,7 +50,7 @@ class Venue(models.Model):
 class Category(models.Model):
     # Different types of events (or sports) #
     name = models.CharField("Name", max_length=50)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name = "Category"
@@ -70,7 +70,7 @@ class Event(models.Model):
     price = models.CharField(default="Free", max_length=50)
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name = "Event"
