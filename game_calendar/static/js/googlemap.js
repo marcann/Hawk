@@ -12,7 +12,7 @@ function initializeMap(){
 
   venue_lat = parseFloat(venue_lat);
   venue_lng = parseFloat(venue_lng);
-  
+
   var location = {
     lat: venue_lat,
     lng: venue_lng
@@ -33,5 +33,5 @@ function initializeMap(){
 
   var_marker.setMap(var_map);
 }
-// TODO:30 Add google map to event_detail page.
-// TODO:20 Customize Google map view for arena locations.
+// DONE:40 Add google map to event_detail page.
+// DOING:0 Make the google map more precise.

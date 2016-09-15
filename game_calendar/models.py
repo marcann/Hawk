@@ -31,7 +31,7 @@ class Venue(models.Model):
     full_address = property(_get_display_address)
 
     def _get_geocode(self):
-        return "%s" % ( self.postal_code)
+        return "%s" % (self.postal_code)
     geo_address = property(_get_geocode)
 
     def save(self, *args, **kwargs):
@@ -85,4 +85,4 @@ class Event(models.Model):
         return reverse('event_detail', args=[self.pk])
 
 
-# TODO:0 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
+# TODO:30 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.

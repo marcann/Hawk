@@ -79,4 +79,4 @@ def event_detail(request, pk):
     json_venues = serializers.serialize("json", Venue.objects.all())
     return render(request, 'game_calendar/event_detail.html', {'event': event, 'json_event': json_event, 'json_venues': json_venues})
 
-    # DONE:10 Add a list of events as part of the base of the site.
+    # DONE:20 Add a list of events as part of the base of the site.
