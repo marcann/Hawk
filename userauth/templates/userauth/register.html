@@ -2,7 +2,8 @@
 
 {% block content %}
   <h1 class="text-center">User Registration</h1>
-  <form id="user-registration" class="form-horizontal" method="POST" action="">{% csrf_token %}
+  <form id="user-registration" class="form-horizontal" method="POST" action="">
+    {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="form-group">
       {{ form.email.errors }}
@@ -44,7 +45,4 @@
       </div>
     </div>
   </form>
-  <p>
-    {{ message }}
-  </p>
 {% endblock %}

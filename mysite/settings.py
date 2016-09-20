@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'blog',
     'game_calendar',
     'userauth',
-    # DONE:10 Make userauth app.
-    # DONE:60 Make calendar app.
+    # DONE:20 Make userauth app.
+    # DONE:70 Make calendar app.
 ]
 
 MIDDLEWARE = [

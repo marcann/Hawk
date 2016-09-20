@@ -24,7 +24,12 @@
             </button>
             <a class="navbar-brand" href="{% url 'post_list' %}">Home</a>
             <a class="navbar-brand" href="{% url 'calendar_today' %}">Calendar</a>
+            {% if user.is_authenticated %}
+            <a class="navbar-brand" href="{% url 'logout' %}">Log Out</a>
+            {% else %}
             <a class="navbar-brand" href="{% url 'register' %}">Register</a>
+            <a class="navbar-brand" href="{% url 'login' %}">Log In</a>
+            {% endif %}
         </div>
     </nav>
     <div class="content container">

@@ -1,4 +1,4 @@
-# TODO:10 Create register page / view.
+# DONE:0 Create register page / view.
 # TODO:0 Create login page / view.
     <div class="form-group">
       <label for="email" class="col-md-3 control-label">E-mail Address</label>
