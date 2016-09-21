@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm, LogInForm
 from django.http import HttpResponseRedirect
 from django.template.context_processors import csrf
 from django.contrib.auth import authenticate, login, logout
+from django import forms
 
 def register(request):
     if request.method == 'POST':
@@ -25,14 +26,12 @@ def register_success(request):
 def login_view(request):
     if request.method == 'POST':
         form = LogInForm(data=request.POST)
-        email = request.POST['email']
+        email = request.POST['username']
         password = request.POST['password']
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
             return HttpResponseRedirect('/user/login_success')
-        else:
-            return "Error, Invalid Login"
     else:
         form = LogInForm()
 

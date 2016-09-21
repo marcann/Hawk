@@ -4,12 +4,16 @@
 <h1 class="text-center">Log In Page</h1>
 <form id="user-login" class="form-horizontal" method="POST" action="{% url 'login' %}">
   {% csrf_token %}
-  {{ form.non_field_errors }}
+  {% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    {{ form.non_field_errors }}
+    {{ form.username.errors }}
+  </div>
+  {% endif %}
   <div class="form-group">
-    {{ form.email.errors }}
     <label for="{{ form.email.id_for_label }}" class="col-md-3 control-label">E-mail Address</label>
     <div class="col-md-9">
-      {{ form.email }}
+      {{ form.username }}
     </div>
   </div>
   <div class="form-group">

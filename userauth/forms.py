@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django import forms
 from userauth.models import CustomUser
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 class CustomUserCreationForm(UserCreationForm):
     """
@@ -58,7 +59,7 @@ class CustomUserChangeForm(UserChangeForm):
             model = CustomUser
 
 class LogInForm(AuthenticationForm):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail Address'}),
+    username = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail Address'}),
      label="E-mail")
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
      label="Password")
