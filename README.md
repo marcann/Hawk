@@ -6,5 +6,5 @@ Current features:
 - Calendar
 - Event schedular
 - Google Map view and guest list for each event
-- User management (normal/staff/superuser)
-- Single guest invites
+- User admin management control for multiple contributors
+- Inline guest invites
