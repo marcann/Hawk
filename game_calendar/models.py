@@ -119,7 +119,7 @@ class Event(models.Model):
     def guests_not_attending(self):
         return self.guests.filter(attending_status='no')
 
-    def guests_may_attend(self):
+    def guests_maybe_attending(self):
         return self.guests.filter(attending_status='maybe')
 
     def guests_no_rsvp(self):
