@@ -37,14 +37,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         if (not self.first_name and not self.last_name):
             return '%s' % self.email
         else:
-            full_name = '%s %s' % (self.first_name, self.last_name)
+            full_name = '%s %s' % (self.first_name.capitalize(), self.last_name.capitalize())
             return full_name.strip()
 
     def get_short_name(self):
         '''
-        Returns the short name for the user.
+        Returns the short name for the user. Or email if none is provided.
         '''
-        return self.first_name
+        if (not self.first_name):
+            return self.email
+        else:
+            return self.first_name.capitalize()
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         '''

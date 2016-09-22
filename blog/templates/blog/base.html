@@ -41,6 +41,9 @@
             {% endblock %}
             </div>
             <div class="col-md-4">
+                {% if user.is_authenticated %}
+                <h6>Hello {{ user.get_short_name }}</h6>
+                {% endif %}
                     {% include "game_calendar/event_list.html" %}
             </div>
         </div>

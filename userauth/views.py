@@ -31,7 +31,7 @@ def login_view(request):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/user/login_success')
+            return HttpResponseRedirect('/')
     else:
         form = LogInForm()
 
@@ -43,7 +43,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/user/logout_success')
+    return HttpResponseRedirect('/')
 
 def login_success(request):
     return render(request, 'userauth/login_success.html')
