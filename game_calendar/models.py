@@ -54,26 +54,6 @@ class Venue(models.Model):
                 self.lng = get_lng(location)
         super(Venue, self).save(*args, **kwargs)
 
-    def guests_attending(self):
-        return self.guests.filter(attending_status='yes')
-
-    def guests_not_attending(self):
-        return self.guests.filter(attending_status='no')
-
-    def guests_maybe_attending(self):
-        return self.guests.filter(attending_status='maybe')
-
-    def guests_no_rsvp(self):
-        return self.guests.filter(attending_status='no_rsvp')
-
-    def send_guest_emails(self):
-        """
-        Sends an e-mail invite to all guests who have no RSVPed.
-
-        Requires settings from RSVP_FROM_EMAIL in your settings file. Returns a
-        count of the number of guests e-mailed.
-        """
-
 class Category(models.Model):
     # Different types of events (or sports) #
     name = models.CharField("Name", max_length=50)
@@ -97,7 +77,7 @@ class Event(models.Model):
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
-    group = models.ForeignKey(Group, blank=True, null=True)
+    group = models.ForeignKey(Group, blank=True, null=True, help_text='The group of users you want to send the e-mail invite to.')
     email_subject = models.CharField(max_length=255, help_text='The subject line for the e-mail sent out to guests.', default='')
     email_message = models.TextField(help_text='The body of the e-mail sent out to guests.', default='')
 
@@ -125,7 +105,7 @@ class Event(models.Model):
     def guests_no_rsvp(self):
         return self.guests.filter(attending_status='no_rsvp')
 
-    def send_guest_emails(self):
+    '''def send_guest_emails(self):
         """
         Sends an invite e-mail to all guest who have not RSVPed.
 
@@ -145,7 +125,7 @@ class Event(models.Model):
             mass_mail_data.append([self.email_subject, message, from_email, [guest.email]])
 
         send_mass_mail(mass_mail_data, fail_silently=True)
-        return self.guests_no_rsvp().count()
+        return self.guests_no_rsvp().count()'''
 
 
 class Guest(models.Model):
