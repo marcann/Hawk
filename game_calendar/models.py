@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from .helpers import get_lat, get_lng
+from userauth.models import CustomUser, Group
 
 ATTENDING_CHOICES = (
     ('yes', 'Yes'),
@@ -23,7 +24,7 @@ class Venue(models.Model):
     postal_code = models.CharField("Postal Code", max_length=6)
     lat = models.CharField(blank=True, max_length=50)
     lng = models.CharField(blank=True, max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name = "Venue"
@@ -76,7 +77,7 @@ class Venue(models.Model):
 class Category(models.Model):
     # Different types of events (or sports) #
     name = models.CharField("Name", max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         verbose_name = "Category"
@@ -91,12 +92,12 @@ class Event(models.Model):
     # not meant for publication.#
     title = models.CharField("Title", max_length=50)
     description = models.TextField("Description")
-    comments = models.TextField("Comments")
     date_and_time = models.DateTimeField("Date and time")
     price = models.CharField(default="Free", max_length=50)
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    group = models.ForeignKey(Group, blank=True, null=True)
     email_subject = models.CharField(max_length=255, help_text='The subject line for the e-mail sent out to guests.', default='')
     email_message = models.TextField(help_text='The body of the e-mail sent out to guests.', default='')
 
@@ -112,21 +113,54 @@ class Event(models.Model):
         from django.urls import reverse
         return reverse('event_detail', args=[self.pk])
 
+    def guests_attending(self):
+        return self.guests.filter(attending_status='yes')
+
+    def guests_not_attending(self):
+        return self.guests.filter(attending_status='no')
+
+    def guests_may_attend(self):
+        return self.guests.filter(attending_status='maybe')
+
+    def guests_no_rsvp(self):
+        return self.guests.filter(attending_status='no_rsvp')
+
+    def send_guest_emails(self):
+        """
+        Sends an invite e-mail to all guest who have not RSVPed.
+
+        Requires settings RSVP_FROM_EMAIL in your settings file. Returns a
+        count of the number of guests e-mailed.
+        """
+        mass_mail_data = []
+        from_email = getattr(settings, 'RSVP_FROM_EMAIL', '')
+
+        for guest in self.guests_no_rsvp():
+            t = loader.get_template('rsvp/event_email.txt')
+            c = Context({
+                'event': self,
+                'site': Site.objects.get_current(),
+            })
+            message = t.render(c)
+            mass_mail_data.append([self.email_subject, message, from_email, [guest.email]])
+
+        send_mass_mail(mass_mail_data, fail_silently=True)
+        return self.guests_no_rsvp().count()
+
+
 class Guest(models.Model):
     event = models.ForeignKey(Event, related_name='guests')
-    email = models.EmailField()
-    name = models.CharField(max_length=128, blank=True, default='')
+    user = models.ForeignKey(CustomUser)
     attending_status = models.CharField(max_length=32, choices=ATTENDING_CHOICES, default='no_rsvp')
-    number_of_guests = models.SmallIntegerField(default=0)
     comment = models.CharField(max_length=255, blank=True, default='')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return '%s - %s - %s' % (self.event.title, self.email, self.attending_status)
+        return '%s - %s - %s' % (self.event.title, self.user.email, self.attending_status)
 
     class Meta:
-        unique_together = ('event', 'email')
+        unique_together = ('event', 'user')
 
     def save(self, *args, **kwargs):
         self.updated = timezone.now()

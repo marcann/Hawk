@@ -54,3 +54,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+class Group(models.Model):
+    name = models.CharField(max_length = 25)
+    members = models.ManyToManyField(
+        CustomUser
+    )
+
+    class Meta:
+        verbose_name = "User Group"
+        verbose_name_plural = "User Groups"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name

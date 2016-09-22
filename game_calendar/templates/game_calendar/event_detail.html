@@ -21,4 +21,48 @@
     <script async defer
         src="http://maps.google.com/maps/api/js?key=AIzaSyDlFVWD7CVtS_Sy6LeKkeKhaabRX6AfJV0&signed_in=true&callback=initializeMap">
     </script>
+    {% if event.guests %}
+    <div>
+        {% if event.guests_attending %}
+        <h3>Attending</h3>
+        <ul>
+            {% for guest in event.guests_attending %}
+            <li>
+                {{ guest.user.get_full_name }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if event.guests_maybe_attending %}
+        <h3>Maybe</h3>
+        <ul>
+            {% for guest in event.guests_maybe_attending %}
+            <li>
+                {{ guest.user.get_full_name }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if event.guests_not_attending %}
+        <h3>Not Attending</h3>
+        <ul>
+            {% for guest in event.guests_not_attending %}
+            <li>
+                {{ guest.user.get_full_name }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if event.guests_no_rsvp %}
+        <h3>Not Answered</h3>
+        <ul>
+            {% for guest in event.guests_no_rsvp %}
+            <li>
+                {{ guest.user.get_full_name }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
 {% endblock %}
