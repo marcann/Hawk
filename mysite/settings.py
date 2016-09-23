@@ -131,8 +131,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # E-Mail Configuration
 RSVP_FROM_EMAIL = 'marc.annand@gmail.com'
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@sandboxbbc34070efc5458da30650408f9efe1d.mailgun.org'
-EMAIL_HOST_PASSWORD = '5bcfedfc54cc17b6d84a488d03d53b61'
-EMAIL_PORT = '587'
-EMAIL_USE_TLS = 'True'

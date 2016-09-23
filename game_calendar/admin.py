@@ -52,7 +52,7 @@ class VenueAdmin(admin.ModelAdmin):
 class GuestInline(admin.TabularInline):
     model = Guest
     extra = 3
-    fields = ('user', 'attending_status')
+    fields = ('user', 'attending_status', 'emailed')
 
 class EventAdmin(admin.ModelAdmin):
     exclude = ('author',)
@@ -65,7 +65,7 @@ class EventAdmin(admin.ModelAdmin):
         }),
         ('Event Details', {
             'fields': ('venue', 'category', 'price')
-        })
+        }),
     )
     inlines = [GuestInline]
     list_display = ('category', 'title', 'date_and_time', 'author')
@@ -77,9 +77,9 @@ class GuestAdmin(admin.ModelAdmin):
     The form to add and change guest instances.
     """
     exclude = ('emailed',)
-    fields = ('event', 'user', 'attending_status')
-    list_display = ('user', 'attending_status')
-    list_filter = ('attending_status',)
+    fields = ('event', 'user', 'attending_status', 'emailed')
+    list_display = ('user', 'attending_status', 'emailed')
+    list_filter = ('attending_status', 'emailed',)
     search_fields = ('user',)
 
 

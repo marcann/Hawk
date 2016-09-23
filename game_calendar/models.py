@@ -3,9 +3,8 @@ from django.conf import settings
 from django.utils import timezone
 from .helpers import get_lat, get_lng
 from userauth.models import CustomUser, Group
-from django.core.mail import send_mass_mail
 from django.template import loader, Context
-from django.contrib.sites.shortcuts import get_current_site
+import requests
 
 ATTENDING_CHOICES = (
     ('yes', 'Yes'),
@@ -115,22 +114,31 @@ class Event(models.Model):
         Requires settings RSVP_FROM_EMAIL in your settings file. Returns a
         count of the number of guests e-mailed.
         '''
-        mass_mail_data = []
+
         from_email = getattr(settings, 'RSVP_FROM_EMAIL', '')
+        t = loader.get_template('game_calendar/event_email.txt')
+        c = Context({
+            'event': self,
+            })
+        message = t.render(c)
 
         for guest in self.guests_no_rsvp():
-            if not guest.emailed:
-                t = loader.get_template('game_calendar/event_email.txt')
-                c = Context({
-                    'event': self,
-                    })
-                message = t.render(c)
-                mass_mail_data.append([self.email_subject, message, from_email, [guest.user.email]])
-                guest.emailed = True
+            if guest.emailed == False:
+                # SET guest.emailed TO TRUE IN THE IF TO PREVENT SEVERAL EMAILS GOING OUT TO SAME GUEST FOR SAME EVENT.
+                guest.emailed = False
+                guest.save()
+                requests.post("https://api.mailgun.net/v3/sandboxbbc34070efc5458da30650408f9efe1d.mailgun.org/messages",
+                                auth = ("api", "key-dad470b170c16ecb3ca06482996591dc"),
+                                data = {"from": from_email,
+                                        "to": guest.user.email,
+                                        "subject": self.email_subject,
+                                        "text": message})
 
-        send_mass_mail(mass_mail_data, fail_silently=True)
         return self.guests_no_rsvp().count()
 
+    def save(self, *args, **kwargs):
+        self.send_guest_emails()
+        super(Event, self).save(*args, **kwargs)
 
 class Guest(models.Model):
     event = models.ForeignKey(Event, related_name='guests')
@@ -142,7 +150,7 @@ class Guest(models.Model):
     emailed = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s - %s - %s' % (self.event.title, self.user.email, self.attending_status)
+        return '%s - %s - %s - %s' % (self.event.title, self.user.email, self.attending_status, self.emailed)
 
     class Meta:
         unique_together = ('event', 'user')
