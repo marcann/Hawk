@@ -33,5 +33,5 @@ function initializeMap(){
 
   var_marker.setMap(var_map);
 }
-// DONE:50 Add google map to event_detail page.
+// DONE:60 Add google map to event_detail page.
 // DOING:0 Make the google map more precise.

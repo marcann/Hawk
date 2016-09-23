@@ -1,5 +1,5 @@
 # Hawk
-App aimed to provide news, discussion and scheduling/rsvp services for a sports club.
+Django app aimed to provide news, discussion and scheduling/rsvp services for a sports club.
 
 Current features:
 - Blog

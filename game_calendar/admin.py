@@ -76,6 +76,7 @@ class GuestAdmin(admin.ModelAdmin):
     """
     The form to add and change guest instances.
     """
+    exclude = ('emailed',)
     fields = ('event', 'user', 'attending_status')
     list_display = ('user', 'attending_status')
     list_filter = ('attending_status',)

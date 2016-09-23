@@ -3,6 +3,9 @@ from django.conf import settings
 from django.utils import timezone
 from .helpers import get_lat, get_lng
 from userauth.models import CustomUser, Group
+from django.core.mail import send_mass_mail
+from django.template import loader, Context
+from django.contrib.sites.shortcuts import get_current_site
 
 ATTENDING_CHOICES = (
     ('yes', 'Yes'),
@@ -105,27 +108,28 @@ class Event(models.Model):
     def guests_no_rsvp(self):
         return self.guests.filter(attending_status='no_rsvp')
 
-    '''def send_guest_emails(self):
-        """
+    def send_guest_emails(self):
+        '''
         Sends an invite e-mail to all guest who have not RSVPed.
 
         Requires settings RSVP_FROM_EMAIL in your settings file. Returns a
         count of the number of guests e-mailed.
-        """
+        '''
         mass_mail_data = []
         from_email = getattr(settings, 'RSVP_FROM_EMAIL', '')
 
         for guest in self.guests_no_rsvp():
-            t = loader.get_template('rsvp/event_email.txt')
-            c = Context({
-                'event': self,
-                'site': Site.objects.get_current(),
-            })
-            message = t.render(c)
-            mass_mail_data.append([self.email_subject, message, from_email, [guest.email]])
+            if not guest.emailed:
+                t = loader.get_template('game_calendar/event_email.txt')
+                c = Context({
+                    'event': self,
+                    })
+                message = t.render(c)
+                mass_mail_data.append([self.email_subject, message, from_email, [guest.user.email]])
+                guest.emailed = True
 
         send_mass_mail(mass_mail_data, fail_silently=True)
-        return self.guests_no_rsvp().count()'''
+        return self.guests_no_rsvp().count()
 
 
 class Guest(models.Model):
@@ -135,6 +139,7 @@ class Guest(models.Model):
     comment = models.CharField(max_length=255, blank=True, default='')
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(blank=True, null=True)
+    emailed = models.BooleanField(default=False)
 
     def __str__(self):
         return '%s - %s - %s' % (self.event.title, self.user.email, self.attending_status)
@@ -148,4 +153,4 @@ class Guest(models.Model):
 
 
 
-# TODO:20 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
+# TODO:10 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
