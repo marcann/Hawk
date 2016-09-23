@@ -7,4 +7,4 @@ Current features:
 - Event scheduler
 - Google Map view and guest list for each event
 - User admin management control for multiple contributors
-- Inline guest invites
+- Invite guests via their user account email
