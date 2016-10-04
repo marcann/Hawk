@@ -81,6 +81,7 @@ def event_detail(request, pk):
 def event_new(request):
     form = EventForm()
     return render(request, 'game_calendar/event_new.html', {'form': form})
+    # TODO Make event save when submitted. Added created_date attribute which will need to be saved here.
     # DONE:40 Add a list of events as part of the base of the site.
 
 @login_required

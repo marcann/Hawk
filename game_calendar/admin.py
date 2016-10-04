@@ -58,7 +58,7 @@ class EventAdmin(admin.ModelAdmin):
     exclude = ('author',)
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'date_and_time'),
+            'fields': ('title', 'description', 'date_and_time', 'created_date'),
         }),
         ('E-Mail', {
             'fields': ('group', 'email_subject', 'email_message'),

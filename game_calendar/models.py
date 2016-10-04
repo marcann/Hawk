@@ -79,6 +79,7 @@ class Event(models.Model):
     venue = models.ForeignKey(Venue)
     category = models.ForeignKey(Category)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_date = models.DateTimeField(default=timezone.now)
     group = models.ForeignKey(Group, blank=True, null=True, help_text='The group of users you want to send the e-mail invite to.')
     email_subject = models.CharField(max_length=255, help_text='The subject line for the e-mail sent out to guests.', default='')
     email_message = models.TextField(help_text='The body of the e-mail sent out to guests.', default='')

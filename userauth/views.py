@@ -8,6 +8,7 @@ from blog.models import Post
 from game_calendar.models import Event
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserChangeForm
+from django.utils import timezone
 
 def register(request):
     if request.method == 'POST':
@@ -57,8 +58,8 @@ def logout_success(request):
 
 @login_required
 def dashboard_view(request):
-    posts = Post.objects.filter(author=request.user)
-    events = Event.objects.filter(author=request.user)
+    posts = Post.objects.filter(author=request.user, published_date__lte=timezone.now()).order_by('-published_date')
+    events = Event.objects.filter(author=request.user, created_date__lte=timezone.now()).order_by('-created_date')
     return render(request, 'userauth/dashboard.html', {'posts': posts, 'events': events})
 
 @login_required
