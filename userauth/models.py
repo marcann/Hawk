@@ -42,12 +42,27 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         '''
-        Returns the short name for the user. Or email if none is provided.
+        Returns the first name for the user. Or email if none is provided.
         '''
         if (not self.first_name):
             return self.email
         else:
             return self.first_name.capitalize()
+
+    def get_last_name(self):
+        '''
+        Returns the last name for the user. Or email if none is provided.
+        '''
+        if (not self.last_name):
+            return self.email
+        else:
+            return self.last_name.capitalize()
+
+    def get_email(self):
+        '''
+        Returns the user's email address.
+        '''
+        return self.email
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         '''

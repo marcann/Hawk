@@ -87,7 +87,7 @@ class EventCalendar(HTMLCalendar):
             s = '%s %s' % (month_names[self.month], self.year)
         else:
             s = '%s' % month_names[self.month]
-        return '<tr><th colspan="7" class="monthname text-center">%s</th></tr>' % s
+        return '<tr><th colspan="7" class="monthname text-center" style="font-family:Glegoo">%s</th></tr>' % s
 
     def formatmonth(self, year, month):
         """

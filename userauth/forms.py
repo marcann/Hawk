@@ -55,8 +55,9 @@ class CustomUserChangeForm(UserChangeForm):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
         del self.fields['username']
 
-        class Meta:
-            model = CustomUser
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email', 'password')
 
 class LogInForm(AuthenticationForm):
     username = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail Address'}),

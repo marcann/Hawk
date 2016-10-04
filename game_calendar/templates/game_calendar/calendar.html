@@ -12,7 +12,10 @@
     </a>
   </div>
 </div>
-  {% block event_detail %}
-  {% endblock %}
+<div class="control-buttons">
+  {% if user.is_authenticated or perms.game_calendar.add_event %}
+          <a href="{% url 'event_new' %}"><button type="submit" class="btn btn-primary btn-block">Create an Event</button></a>
+  {% endif %}
+</div>
 
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    <p>
+      {{ message }}
+    </p>
+    {% endfor %}
+{% endif %}
+
+<form method="post" class="post-form">
+  {% csrf_token %}
+
+  {{ event_form.as_p }}
+
+  <button type="submit" class="btn btn-primary btn-block">Update Event</button>
+</form>
+
+{% endblock %}

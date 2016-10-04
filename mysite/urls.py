@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('blog.urls')),
     url(r'^calendar/', include('game_calendar.urls')),
-    url(r'^user/', include('userauth.urls')),
+    url(r'^accounts/', include('userauth.urls')),
 ]

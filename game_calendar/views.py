@@ -1,10 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime, date
 from calendar import monthrange
-from .models import Event, Venue
+from .models import Event, Venue, Guest
 from django.utils import timezone
 from django.core import serializers
 from django.http import HttpResponse
+from django.forms.formsets import formset_factory
+from django.db import IntegrityError, transaction
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+from .forms import EventForm, GuestForm
 
 def named_month(month_number):
     """
@@ -18,14 +24,6 @@ def this_month(request):
     """
     today = timezone.now()
     return calendar(request, today.year, today.month)
-
-# def next_month(request):
-    #today = timezone.now()
-    #return calendar(request, today.year, today.my_next_month)
-
-# def previous_month(request):
-    #today = timezone.now()
-    #return calendar(request, today.year, today.my_previous_month)
 
 def calendar(request, year, month, series_id=None):
     """
@@ -79,4 +77,38 @@ def event_detail(request, pk):
     json_venues = serializers.serialize("json", Venue.objects.all())
     return render(request, 'game_calendar/event_detail.html', {'event': event, 'json_event': json_event, 'json_venues': json_venues})
 
+@login_required
+def event_new(request):
+    form = EventForm()
+    return render(request, 'game_calendar/event_new.html', {'form': form})
     # DONE:40 Add a list of events as part of the base of the site.
+
+@login_required
+def event_edit(request, pk):
+
+    event = get_object_or_404(Event, pk=pk)
+
+    if request.method == 'POST':
+        event_form = EventForm(request.POST)
+
+        if event_form.is_valid():
+            # Save Event Info
+            event.title = event_form.cleaned_data.get('title')
+            event.description = event_form.cleaned_data.get('description')
+            event.date_and_time = event_form.cleaned_data.get('date_and_time')
+            event.venue = event_form.cleaned_data.get('venue')
+            event.category = event_form.cleaned_data.get('category')
+            event.price = event_form.cleaned_data.get('price')
+            event.email_subject = event_form.cleaned_data.get('email_subject')
+            event.email_message = event_form.cleaned_data.get('email_message')
+            event.save()
+
+    else:
+        event_form = EventForm(instance=event)
+
+    context = {
+        'event_form': event_form,
+    }
+
+
+    return render(request, 'game_calendar/event_edit.html', context)

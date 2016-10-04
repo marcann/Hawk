@@ -137,7 +137,6 @@ class Event(models.Model):
         return self.guests_no_rsvp().count()
 
     def save(self, *args, **kwargs):
-        self.send_guest_emails()
         super(Event, self).save(*args, **kwargs)
 
 class Guest(models.Model):

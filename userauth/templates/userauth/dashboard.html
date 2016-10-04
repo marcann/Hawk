@@ -1,0 +1,58 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h1>{{ user.get_full_name }}</h1>
+<table class="table">
+  <tr>
+    <th>
+      First Name:
+    </th>
+    <td>
+      {{ user.get_short_name }}
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Last Name:
+    </th>
+    <td>
+      {{ user.get_last_name }}
+    </td>
+  </tr>
+  <tr>
+    <th>
+      E-Mail:
+    </th>
+    <td>
+      {{ user.get_email }}
+    </td>
+  </tr>
+</table>
+{% if posts %}
+  <h3>Your Posts</h3>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if events %}
+  <h3>Your Events</h3>
+  <ul>
+    {% for event in events %}
+      <li>
+        <a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<div class="control-buttons">
+  <a href="{% url 'post_new' %}"><button type="submit" class="btn btn-primary btn-block">Create a Blog Post</button></a>
+  <br />
+  <a href="{% url 'event_new' %}"><button type="submit" class="btn btn-primary btn-block">Create an Event</button></a>
+</div>
+
+{% endblock %}
