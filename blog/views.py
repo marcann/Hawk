@@ -3,7 +3,7 @@ from django.utils import timezone
 from .models import Post
 from game_calendar.models import Event
 from django.views.generic.base import TemplateView
-from .forms import PostForm
+from .forms import PostForm, PostDeleteForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
@@ -51,6 +51,16 @@ def post_edit(request, pk):
 
 @login_required
 def post_delete(request, pk):
-    return ''
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = PostDeleteForm(request.POST, instance=post)
+        if form.is_valid():
+            post.delete()
+            return HttpResponseRedirect('/')
+    else:
+        form = PostDeleteForm(instance=post)
 
+    return render(request, 'blog/post_delete.html', {'form': form, 'post': post})
+
+# DONE: Added delete view for Posts.
 # DONE:20 Add navigation menu bar to the site's header.

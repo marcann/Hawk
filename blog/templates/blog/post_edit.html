@@ -7,4 +7,7 @@
   {{ form.as_p }}
   <button type="submit" class="btn btn-primary btn-block">Update Post</button>
 </form>
+<div class="button-links control-buttons">
+  <a href="{% url 'post_delete' pk=post.pk %}"><button type="submit" class="btn btn-danger btn-block">Delete Post</button></a>
+</div>
 {% endblock %}

@@ -26,5 +26,20 @@ class GuestForm(forms.Form):
     class Meta:
         model = Guest
 
-# TODO Make custom widget for date_and_time field in Event.
-# TODO Look into why guests are not appearing on the edit page with current implamentation / Look into new solutions.
+class EventDeleteForm(forms.ModelForm):
+
+    confirm = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label="Confirm Delete")
+
+    class Meta:
+        model = Event
+        fields = ('confirm',)
+
+    def clean(self):
+        keyword = "delete"
+        if (self.cleaned_data['confirm'].lower() != keyword):
+            raise forms.ValidationError("Did not type in proper keyword.")
+        return self.cleaned_data
+
+
+# TODO:10 Make custom widget for date_and_time field in Event.
+# TODO:0 Look into why guests are not appearing on the edit page with current implamentation / Look into new solutions.

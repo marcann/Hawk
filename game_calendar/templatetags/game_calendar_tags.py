@@ -76,7 +76,7 @@ class EventCalendar(HTMLCalendar):
             return self.day_cell(cssclass, '<span class="dayNumberNoEvents">%d</span>' % (day))
         return self.day_cell('noday', '&nbsp;')
 
-    # TODO:0 Make in-calendar link better.
+    # TODO:30 Make in-calendar link better.
 
     def formatmonthname(self, year, month, withyear=True):
         """

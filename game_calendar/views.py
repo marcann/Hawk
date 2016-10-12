@@ -10,7 +10,7 @@ from django.db import IntegrityError, transaction
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from .forms import EventForm, GuestForm
+from .forms import EventForm, GuestForm, EventDeleteForm
 
 def named_month(month_number):
     """
@@ -81,7 +81,7 @@ def event_detail(request, pk):
 def event_new(request):
     form = EventForm()
     return render(request, 'game_calendar/event_new.html', {'form': form})
-    # TODO Make event save when submitted. Added created_date attribute which will need to be saved here.
+    # TODO:20 Make event save when submitted. Added created_date attribute which will need to be saved here.
     # DONE:40 Add a list of events as part of the base of the site.
 
 @login_required
@@ -109,7 +109,21 @@ def event_edit(request, pk):
 
     context = {
         'event_form': event_form,
+        'event': event,
     }
 
 
     return render(request, 'game_calendar/event_edit.html', context)
+
+@login_required
+def event_delete(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.method == 'POST':
+        form = EventDeleteForm(request.POST, instance=event)
+        if form.is_valid():
+            event.delete()
+            return HttpResponseRedirect('/')
+    else:
+        form = EventDeleteForm(instance=event)
+
+    return render(request, 'game_calendar/event_delete.html', {'form': form, 'event': event})

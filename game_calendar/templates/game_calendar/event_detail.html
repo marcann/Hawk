@@ -64,7 +64,9 @@
         </ul>
         {% endif %}
         {% if user.is_authenticated and user == event.author or user.is_superuser %}
-            <a href="{% url 'event_edit' pk=event.pk%}"><button type="submit" class="btn btn-primary btn-block">Edit Event</button></a>
+        <div class="control-buttons button-links">
+          <a href="{% url 'event_edit' pk=event.pk%}"><button type="submit" class="btn btn-primary btn-block">Edit Event</button></a>
+        </div>
         {% endif %}
     </div>
     {% endif %}

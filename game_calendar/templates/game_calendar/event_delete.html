@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="event_detail">
+            <div class="event_date">
+                {{ event.date_and_time }}
+            </div>
+        <h1>{{ event.title }}</h1>
+        <p>{{ event.description|linebreaksbr }}</p>
+        <p>{{ event.comments|linebreaksbr }}</p>
+        <p>{{ event.venue.name }}</p>
+        <p>{{ event.venue.full_address }}</p>
+    </div>
+    <div class="bg-danger">
+      <form method="POST" class="post-form">
+        {% csrf_token %}
+        <p>
+          Type 'delete' into the box below to confirm removal of this event.
+        </p>
+          {{ form.as_p }}
+        <button type="submit" class="btn btn-danger btn-block">Delete Event</button>
+      </form>
+    </div>
+
+{% endblock %}

@@ -161,4 +161,4 @@ class Guest(models.Model):
 
 
 
-# TODO:10 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
+# TODO:40 extend the Event model for DWHL Hockey game which allows the storing of scores, locations and comments.
